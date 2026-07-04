@@ -1,0 +1,446 @@
+/* HRMS Serene - Sign In Stylesheet */
+
+:root {
+    --primary: #2d5a4c;
+    --primary-hover: #1e3e34;
+    --primary-light: #e8f4ec;
+    
+    --bg-page: #eef6f0;
+    --white: #ffffff;
+    --text-main: #1c2b24;
+    --text-muted: #6e8277;
+    --border-color: #d1e2d7;
+    --input-bg: #f3f8f4;
+    
+    --shadow-lg: 0 20px 40px rgba(45, 90, 76, 0.08);
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, rgba(234, 242, 235, 0.90) 0%, rgba(244, 250, 246, 0.95) 100%), 
+                url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.signin-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+/* Top Header */
+.top-header {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0 24px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-logo {
+    color: var(--primary);
+}
+
+.brand-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+}
+
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.header-links a {
+    color: var(--text-muted);
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.header-links a:hover {
+    color: var(--primary);
+}
+
+.dot-separator {
+    color: var(--border-color);
+}
+
+/* Main Container */
+.signin-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* Left Panel */
+.info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.info-title {
+    font-size: 3.5rem;
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    font-weight: 700;
+}
+
+.info-title .highlight {
+    color: var(--primary);
+}
+
+.info-description {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 480px;
+}
+
+/* Automated ID Logic Card */
+.id-logic-box {
+    background-color: rgba(209, 226, 215, 0.4);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(45, 90, 76, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 520px;
+}
+
+.id-logic-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-icon {
+    color: var(--primary);
+}
+
+.id-logic-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.id-logic-desc {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.formula-pill {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    color: var(--primary);
+    overflow-x: auto;
+}
+
+.formula-pill code {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+.formula-example {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.id-logic-footer {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(45, 90, 76, 0.1);
+    padding-top: 12px;
+    margin-top: 4px;
+}
+
+.clock-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Right Form Panel */
+.form-panel {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.login-card {
+    background-color: var(--white);
+    border-radius: 28px;
+    padding: 48px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+.card-title {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.card-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 14px 14px 14px 44px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    transition: var(--transition);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: var(--white);
+    box-shadow: 0 0 0 4px rgba(45, 90, 76, 0.08);
+}
+
+.input-wrapper input::placeholder {
+    color: #a4b2aa;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 14px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+}
+
+.password-toggle:focus {
+    outline: none;
+}
+
+.form-actions-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.forgot-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.forgot-link:hover {
+    color: var(--primary);
+}
+
+.btn-signin-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+}
+
+.btn-signin-submit:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-signin-submit .arrow {
+    font-size: 1.1rem;
+}
+
+.register-prompt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 28px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.register-link {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* Bottom Footer */
+.bottom-footer {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px 0 12px;
+    border-top: 1px solid rgba(45, 90, 76, 0.08);
+}
+
+.bottom-footer .footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.bottom-footer .footer-links a {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.bottom-footer .footer-links a:hover {
+    color: var(--primary);
+}
+
+.copyright {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .signin-container {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    
+    .info-panel {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .id-logic-box {
+        align-self: center;
+        text-align: left;
+    }
+    
+    .form-panel {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .signin-wrapper {
+        padding: 16px;
+    }
+    
+    .top-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .info-title {
+        font-size: 2.5rem;
+    }
+    
+    .login-card {
+        padding: 32px 24px;
+    }
+}
