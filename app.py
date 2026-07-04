@@ -1,56 +1,75 @@
-from flask import Flask, render_template, request, redirect, url_for
-from db import get_db_connection
+from flask import Flask, render_template, session
 from config import Config
+from db import init_db
+import os
+
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = Config.SECRET_KEY
+# App Configuration
+app.config['SECRET_KEY'] = Config.SECRET_KEY
+app.config['UPLOAD_FOLDER'] = Config.UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = Config.MAX_CONTENT_LENGTH
 
-@app.route("/")
-@app.route("/index.html")
+# Ensure upload directory exists
+os.makedirs(Config.UPLOAD_FOLDER, exist_ok=True)
+
+# ======================== Register Blueprints ========================
+from routes.auth import auth_bp
+from routes.dashboard import dashboard_bp
+from routes.attendance import attendance_bp
+from routes.leave import leave_bp
+from routes.profile import profile_bp
+from routes.salary import salary_bp
+from routes.notifications import notifications_bp
+
+app.register_blueprint(auth_bp)
+app.register_blueprint(dashboard_bp)
+app.register_blueprint(attendance_bp)
+app.register_blueprint(leave_bp)
+app.register_blueprint(profile_bp)
+app.register_blueprint(salary_bp)
+app.register_blueprint(notifications_bp)
+
+
+# ======================== Landing Page ========================
+@app.route('/')
+@app.route('/index.html')
 def home():
-    return render_template("index.html")
+    return render_template('index.html')
 
-@app.route("/signin")
-@app.route("/signin.html")
-@app.route("/login")
-def signin():
-    return render_template("signin.html")
 
-@app.route("/signup")
-@app.route("/sign_up.html")
-def signup():
-    return render_template("sign_up.html")
+# ======================== Context Processor ========================
+@app.context_processor
+def inject_session():
+    """Make session data available to all templates."""
+    return {
+        'current_user': {
+            'user_id': session.get('user_id'),
+            'employee_id': session.get('employee_id'),
+            'emp_code': session.get('emp_code'),
+            'email': session.get('email'),
+            'role': session.get('role'),
+            'first_name': session.get('first_name', ''),
+            'last_name': session.get('last_name', ''),
+            'is_authenticated': session.get('user_id') is not None,
+            'is_hr': session.get('role') == 'hr_manager'
+        }
+    }
 
-@app.route("/admin_dashboard")
-@app.route("/admin_dashboard.html")
-def admin_dashboard():
-    return render_template("admin_dashboard.html")
 
-@app.route("/daily_attendance")
-@app.route("/daily_attendance.html")
-def daily_attendance():
-    return render_template("daily_attendance.html")
+# ======================== Error Handlers ========================
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('index.html'), 404
 
-@app.route("/my_attendance")
-@app.route("/my_attendance.html")
-def my_attendance():
-    return render_template("my_attendance.html")
 
-@app.route("/profile_management")
-@app.route("/profile_management.html")
-def profile_management():
-    return render_template("profile_management.html")
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('index.html'), 500
 
-@app.route("/employee_profile")
-@app.route("/employee_profile.html")
-def employee_profile():
-    return render_template("employee_profile.html")
 
-@app.route("/profile_view")
-@app.route("/profile_view.html")
-def profile_view():
-    return render_template("profile_view.html")
-
-if __name__ == "__main__":
+# ======================== Initialize & Run ========================
+if __name__ == '__main__':
+    print("Initializing HRMS Serene database...")
+    init_db()
     app.run(debug=True)
-

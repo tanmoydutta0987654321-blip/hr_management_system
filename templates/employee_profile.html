@@ -1,377 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Profile - HRMS Serene</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/admindashboard.css">
-    <link rel="stylesheet" href="../static/css/employee_profile.css">
-</head>
+{% block title %}Salary Profile - {{ employee.first_name }} {{ employee.last_name }}{% endblock %}
 
-<body>
-    <div class="dashboard-wrapper">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2 class="sidebar-title">Attendance Tracker</h2>
-                <div class="status-indicator-row">
-                    <span class="status-dot status-out" id="statusDot"></span>
-                    <span class="status-text" id="statusText">Current Status: Out</span>
-                </div>
-            </div>
+{% block nav_profile %}active{% endblock %}
 
-            <nav class="sidebar-nav">
-                <a href="employee_profile.html" class="nav-item active">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                    </svg>
-                    <span>Employee Profile</span>
-                </a>
-                <a href="daily_attendance.html" class="nav-item">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 6 12 12 16 14" />
-                    </svg>
-                    <span>Check In/Out</span>
-                </a>
-                <a href="my_attendance.html" class="nav-item">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                        <line x1="16" y1="2" x2="16" y2="6" />
-                        <line x1="8" y1="2" x2="8" y2="6" />
-                        <line x1="3" y1="10" x2="21" y2="10" />
-                    </svg>
-                    <span>My Schedule</span>
-                </a>
-                <a href="my_attendance.html" class="nav-item">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg>
-                    <span>Leave Balance</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <line x1="16" y1="13" x2="8" y2="13" />
-                        <line x1="16" y1="17" x2="8" y2="17" />
-                        <polyline points="10 9 9 9 8 9" />
-                    </svg>
-                    <span>Company Policy</span>
-                </a>
-            </nav>
+{% block page_title %}Salary Profile{% endblock %}
 
-            <div class="sidebar-footer">
-                <button class="btn-checkin" id="btnCheckIn">Check In</button>
-                <div class="footer-links">
-                    <a href="#" class="footer-link">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <line x1="12" y1="17" x2="12.01" y2="17" />
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/employee_profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <!-- Sub Header Card -->
+    <section class="profile-sub-header" style="margin-bottom: 24px;">
+        <div class="profile-sub-left">
+            <h2 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700;">{{ employee.first_name }} {{ employee.last_name }}</h2>
+            <p class="profile-sub-desc" style="color: var(--text-muted); font-size: 0.9rem;">Personal Salary & Payroll Breakdown</p>
+        </div>
+    </section>
+
+    <!-- Salary Info Tab Content -->
+    <div class="employee-profile-grid" id="salaryTabContent" style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 32px;">
+        <!-- Left: Compensation Structure -->
+        <div class="employee-profile-column">
+            <div class="form-card" style="background: var(--white); border-radius: 20px; padding: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                <div class="form-card-header" style="margin-bottom: 24px;">
+                    <div class="form-card-title-row" style="display: flex; align-items: center; gap: 8px;">
+                        <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+                            <line x1="12" y1="18" x2="12" y2="18" />
+                            <line x1="12" y1="6" x2="12" y2="12" />
                         </svg>
-                        <span>Help Center</span>
-                    </a>
-                    <a href="index.html" class="footer-link">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                            <polyline points="16 17 21 12 16 7" />
-                            <line x1="21" y1="12" x2="9" y2="12" />
-                        </svg>
-                        <span>Logout</span>
-                    </a>
+                        <h3 class="form-card-title" style="font-family: var(--font-heading); font-size: 1.15rem;">Compensation Details</h3>
+                    </div>
                 </div>
-                
-                <!-- Bottom Profile Widget for Ankan Karmakar -->
-                <div class="sidebar-profile-widget">
-                    <div class="widget-avatar" style="background-image: url('https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=80&q=80')"></div>
-                    <div class="widget-info">
-                        <span class="widget-name">Ankan Karmakar</span>
-                        <span class="widget-role">Senior UI/UX Designer</span>
-                        <div class="widget-status-row">
-                            <span class="widget-badge" style="background-color: #d1fae5; color: #10b981;">ACTIVE</span>
-                            <span class="widget-badge" style="background-color: var(--primary-light); color: var(--primary);">FULL-TIME</span>
+
+                <!-- Wages Row -->
+                <div class="compensation-wages-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--bg-page); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+                    <div class="wage-box">
+                        <span class="wage-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Monthly Base CTC</span>
+                        <div class="wage-value" style="font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-top: 4px;">₹{{ "{:,.2f}".format(salary.basic_salary + salary.bonus - salary.deduction) }}</div>
+                    </div>
+                    <div class="wage-box">
+                        <span class="wage-label" style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Annualized CTC</span>
+                        <div class="wage-value" style="font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-top: 4px;">₹{{ "{:,.2f}".format((salary.basic_salary + salary.bonus - salary.deduction) * 12) }}</div>
+                    </div>
+                </div>
+
+                <!-- Sliders list (Self wage visual breakdown simulation) -->
+                <div class="sliders-list" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="slider-item">
+                        <div class="slider-item-header" style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">
+                            <span class="slider-item-name">Basic Component (60%)</span>
+                            <span class="slider-item-val" style="color: var(--primary);">₹{{ "{:,.2f}".format(salary.basic_salary * 0.6) }}</span>
                         </div>
+                        <input type="range" class="slider-input-range" disabled min="0" max="100" value="60" style="width: 100%; accent-color: var(--primary);">
+                    </div>
+
+                    <div class="slider-item">
+                        <div class="slider-item-header" style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">
+                            <span class="slider-item-name">HRA Component (30%)</span>
+                            <span class="slider-item-val" style="color: var(--primary);">₹{{ "{:,.2f}".format(salary.basic_salary * 0.3) }}</span>
+                        </div>
+                        <input type="range" class="slider-input-range" disabled min="0" max="100" value="30" style="width: 100%; accent-color: var(--primary);">
+                    </div>
+
+                    <div class="slider-item">
+                        <div class="slider-item-header" style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">
+                            <span class="slider-item-name">Special Allowance Component (10%)</span>
+                            <span class="slider-item-val" style="color: var(--primary);">₹{{ "{:,.2f}".format(salary.basic_salary * 0.1) }}</span>
+                        </div>
+                        <input type="range" class="slider-input-range" disabled min="0" max="100" value="10" style="width: 100%; accent-color: var(--primary);">
                     </div>
                 </div>
             </div>
-        </aside>
+        </div>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Top Navbar -->
-            <header class="top-nav">
-                <div class="brand">
-                    <span class="brand-name">HRMS Serene</span>
-                </div>
-                <div class="nav-tabs">
-                    <a href="profile_management.html" class="tab-link active">Employees</a>
-                    <a href="daily_attendance.html" class="tab-link">Attendance</a>
-                    <a href="my_attendance.html" class="tab-link">Time Off</a>
-                </div>
-                <div class="nav-right">
-                    <div class="search-box">
-                        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                        <input type="text" placeholder="Search employees...">
-                    </div>
-                    <button class="nav-btn-icon" aria-label="Notifications">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                        </svg>
-                    </button>
-                    <button class="nav-btn-icon" aria-label="Settings">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3" />
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                        </svg>
-                    </button>
-                    <a href="profile_view.html" class="user-profile-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80')"></a>
-                </div>
-            </header>
-
-            <!-- Employee Profile Content Container -->
-            <div class="content-container">
-                <!-- Sub Header Card -->
-                <section class="profile-sub-header">
-                    <div class="profile-sub-left">
-                        <h1 class="profile-sub-title">Employee Profile</h1>
-                        <p class="profile-sub-desc">Admin Control Panel & Employee Details</p>
-                        
-                        <!-- Header tabs -->
-                        <div class="profile-sub-tabs">
-                            <button class="profile-tab-btn">Resume</button>
-                            <button class="profile-tab-btn">Private Info</button>
-                            <button class="profile-tab-btn active">Salary Info</button>
-                            <button class="profile-tab-btn">Security</button>
-                        </div>
-                    </div>
-                    <div class="profile-card-actions">
-                        <button class="btn-discard-custom" id="btnExportCV" style="display: inline-flex; align-items: center; gap: 6px;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                <polyline points="7 10 12 15 17 10" />
-                                <line x1="12" y1="15" x2="12" y2="3" />
-                            </svg>
-                            <span>Export CV</span>
-                        </button>
-                        <button class="btn-update-profile" id="btnSaveChanges">Save Changes</button>
-                    </div>
-                </section>
-
-                <!-- Salary Info Tab Content -->
-                <div class="employee-profile-grid" id="salaryTabContent">
-                    <!-- Left: Compensation Structure -->
-                    <div class="employee-profile-column">
-                        <div class="form-card" style="height: 100%;">
-                            <div class="form-card-header">
-                                <div class="form-card-title-row">
-                                    <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
-                                        <line x1="12" y1="18" x2="12" y2="18" />
-                                        <line x1="12" y1="6" x2="12" y2="12" />
-                                    </svg>
-                                    <h3 class="form-card-title">Compensation Structure</h3>
-                                </div>
-                                <span class="badge-admin-only">Admin View Only</span>
-                            </div>
-
-                            <!-- Wages Row -->
-                            <div class="compensation-wages-row">
-                                <div class="wage-box">
-                                    <span class="wage-label">Monthly Wage</span>
-                                    <div class="wage-value">₹50,000 <span>/ mo</span></div>
-                                </div>
-                                <div class="wage-box">
-                                    <span class="wage-label">Yearly Wage</span>
-                                    <div class="wage-value">₹6,00,000 <span>/ yr</span></div>
-                                </div>
-                            </div>
-
-                            <!-- Sliders list -->
-                            <div class="sliders-list">
-                                <!-- Slider 1: Basic Salary -->
-                                <div class="slider-item">
-                                    <div class="slider-item-header">
-                                        <span class="slider-item-name">Basic Salary <span id="basicPercent">(50%)</span></span>
-                                        <span class="slider-item-val" id="basicVal">₹25,000.00</span>
-                                    </div>
-                                    <input type="range" class="slider-input-range" id="basicRange" min="30" max="70" step="5" value="50">
-                                    <span class="slider-item-desc">Calculated based on 50% of the total monthly CTC.</span>
-                                </div>
-
-                                <!-- Slider 2: HRA -->
-                                <div class="slider-item">
-                                    <div class="slider-item-header">
-                                        <span class="slider-item-name">House Rent Allowance <span id="hraPercent">(25%)</span></span>
-                                        <span class="slider-item-val" id="hraVal">₹12,500.00</span>
-                                    </div>
-                                    <input type="range" class="slider-input-range" id="hraRange" min="10" max="40" step="5" value="25">
-                                    <span class="slider-item-desc">HRA provided for 50% of the basic salary components.</span>
-                                </div>
-
-                                <!-- Slider 3: Standard Allowance -->
-                                <div class="slider-item">
-                                    <div class="slider-item-header">
-                                        <span class="slider-item-name">Standard Allowance <span id="stdPercent">(8.33%)</span></span>
-                                        <span class="slider-item-val" id="stdVal">₹4,167.00</span>
-                                    </div>
-                                    <input type="range" class="slider-input-range" id="stdRange" min="5" max="20" step="0.5" value="8.33">
-                                </div>
-
-                                <!-- Slider 4: Performance Bonus -->
-                                <div class="slider-item">
-                                    <div class="slider-item-header">
-                                        <span class="slider-item-name">Performance Bonus <span id="bonusPercent">(5%)</span></span>
-                                        <span class="slider-item-val" id="bonusVal">₹2,500.00</span>
-                                    </div>
-                                    <input type="range" class="slider-input-range" id="bonusRange" min="0" max="15" step="1" value="5">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Payroll Summary & Bank details -->
-                    <div class="employee-profile-column">
-                        <!-- Payroll Summary Card -->
-                        <div class="payroll-summary-card">
-                            <div class="payroll-summary-title-row">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
-                                    <line x1="12" y1="18" x2="12" y2="18" />
-                                    <line x1="12" y1="6" x2="12" y2="12" />
-                                </svg>
-                                <h3 class="payroll-title">Payroll Summary</h3>
-                            </div>
-
-                            <div class="payroll-row">
-                                <span class="payroll-label">Gross Salary</span>
-                                <span class="payroll-val" id="summaryGross">₹50,000.00</span>
-                            </div>
-                            <div class="payroll-row">
-                                <span class="payroll-label">PF Contribution (12%)</span>
-                                <span class="payroll-val payroll-val-negative" id="summaryPf">-₹3,000.00</span>
-                            </div>
-                            <div class="payroll-row">
-                                <span class="payroll-label">Professional Tax</span>
-                                <span class="payroll-val payroll-val-negative">-₹200.00</span>
-                            </div>
-
-                            <div class="payroll-net-row">
-                                <span class="payroll-net-label">Net In-Hand Salary</span>
-                                <span class="payroll-net-val" id="summaryNet">₹46,800.00</span>
-                            </div>
-                        </div>
-
-                        <!-- Banking Details Card -->
-                        <div class="form-card">
-                            <div class="form-card-header">
-                                <div class="form-card-title-row">
-                                    <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
-                                        <line x1="12" y1="18" x2="12" y2="18" />
-                                    </svg>
-                                    <h3 class="form-card-title">Banking Details</h3>
-                                </div>
-                            </div>
-
-                            <div class="bank-details-list">
-                                <div class="bank-detail-item">
-                                    <span class="bank-label">Bank Name</span>
-                                    <span class="bank-val">Serene International Bank</span>
-                                </div>
-                                <div class="bank-detail-item">
-                                    <span class="bank-label">Account Number</span>
-                                    <span class="bank-val">**** **** 8291</span>
-                                </div>
-                                <div class="bank-detail-item">
-                                    <span class="bank-label">IFSC Code</span>
-                                    <span class="bank-val">SERB000192</span>
-                                </div>
-                                <div class="bank-detail-item">
-                                    <span class="bank-label">PAN No</span>
-                                    <span class="bank-val">ABCDE1234F</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Right: Payroll Summary & Bank details -->
+        <div class="employee-profile-column" style="display: flex; flex-direction: column; gap: 32px;">
+            <!-- Payroll Summary Card -->
+            <div class="payroll-summary-card" style="background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; border-radius: 20px; padding: 24px; box-shadow: var(--shadow-sm);">
+                <div class="payroll-summary-title-row" style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+                        <line x1="12" y1="18" x2="12" y2="18" />
+                        <line x1="12" y1="6" x2="12" y2="12" />
+                    </svg>
+                    <h3 class="payroll-title" style="font-family: var(--font-heading); font-size: 1.15rem; color: white;">CTC Structure</h3>
                 </div>
 
-                <!-- Placeholder Tab Contents (Hidden Initially) -->
-                <div class="form-card" id="placeholderTabContent" style="display: none; margin-bottom: 24px; text-align: center; padding: 48px 0;">
-                    <h3 class="form-card-title" id="placeholderTabTitle" style="font-size: 1.5rem; margin-bottom: 12px;">Resume Details</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Content is currently being processed or pending approval. View Salary Info tab for admin details.</p>
+                <div class="payroll-row" style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                    <span class="payroll-label" style="color: rgba(255,255,255,0.85);">Gross Basic Salary</span>
+                    <span class="payroll-val" style="font-weight: 600;">₹{{ "{:,.2f}".format(salary.basic_salary) }}</span>
+                </div>
+                <div class="payroll-row" style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                    <span class="payroll-label" style="color: rgba(255,255,255,0.85);">Bonus / Allowances</span>
+                    <span class="payroll-val" style="font-weight: 600;">₹{{ "{:,.2f}".format(salary.bonus) }}</span>
+                </div>
+                <div class="payroll-row" style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 16px; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 10px;">
+                    <span class="payroll-label" style="color: rgba(255,255,255,0.85);">Standard Deductions</span>
+                    <span class="payroll-val payroll-val-negative" style="font-weight: 600; color: #ffd9a6;">-₹{{ "{:,.2f}".format(salary.deduction) }}</span>
                 </div>
 
-                <!-- Bottom row cards -->
-                <section class="bottom-info-cards-row">
-                    <!-- DOB Card -->
-                    <div class="info-details-mini-card">
-                        <div class="info-card-icon-box">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                <line x1="16" y1="2" x2="16" y2="6" />
-                                <line x1="8" y1="2" x2="8" y2="6" />
-                                <line x1="3" y1="10" x2="21" y2="10" />
-                            </svg>
-                        </div>
-                        <div class="info-card-meta">
-                            <span class="bank-label">Date of Birth</span>
-                            <span class="bank-val" style="font-size: 0.95rem;">August 12, 1994</span>
-                        </div>
-                    </div>
-
-                    <!-- Residing City Card -->
-                    <div class="info-details-mini-card">
-                        <div class="info-card-icon-box">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                        </div>
-                        <div class="info-card-meta">
-                            <span class="bank-label">Residing City</span>
-                            <span class="bank-val" style="font-size: 0.95rem;">Kolkata, West Bengal</span>
-                        </div>
-                    </div>
-
-                    <!-- Email Card -->
-                    <div class="info-details-mini-card">
-                        <div class="info-card-icon-box">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                <polyline points="22,6 12,13 2,6" />
-                            </svg>
-                        </div>
-                        <div class="info-card-meta">
-                            <span class="bank-label">Personal Email</span>
-                            <span class="bank-val" style="font-size: 0.95rem; text-transform: none;">ankan.k@personal.com</span>
-                        </div>
-                    </div>
-                </section>
+                <div class="payroll-net-row" style="display: flex; justify-content: space-between; align-items: center; font-size: 1.15rem; font-weight: 700;">
+                    <span class="payroll-net-label">Net CTC</span>
+                    <span class="payroll-net-val" style="color: var(--accent-mint);">₹{{ "{:,.2f}".format(salary.basic_salary + salary.bonus - salary.deduction) }}</span>
+                </div>
             </div>
-        </main>
-        
-        <!-- Floating FAB Button -->
-        <button class="btn-floating-fab" aria-label="Add Event">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-        </button>
+
+            <!-- Banking Details Card -->
+            <div class="form-card" style="background: var(--white); border-radius: 20px; padding: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                <div class="form-card-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                    <div class="form-card-title-row" style="display: flex; align-items: center; gap: 8px;">
+                        <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+                            <line x1="12" y1="18" x2="12" y2="18" />
+                        </svg>
+                        <h3 class="form-card-title" style="font-family: var(--font-heading); font-size: 1.15rem;">Banking Profile</h3>
+                    </div>
+                </div>
+
+                <div class="bank-details-list" style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+                    <div class="bank-detail-item" style="display: flex; justify-content: space-between;">
+                        <span class="bank-label" style="color: var(--text-muted);">Bank Name</span>
+                        <span class="bank-val" style="font-weight: 500;">Serene International Bank</span>
+                    </div>
+                    <div class="bank-detail-item" style="display: flex; justify-content: space-between;">
+                        <span class="bank-label" style="color: var(--text-muted);">Account Number</span>
+                        <span class="bank-val" style="font-weight: 500;">**** **** 8291</span>
+                    </div>
+                    <div class="bank-detail-item" style="display: flex; justify-content: space-between;">
+                        <span class="bank-label" style="color: var(--text-muted);">IFSC Code</span>
+                        <span class="bank-val" style="font-weight: 500;">SERB000192</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="../static/js/admindashboard.js"></script>
-    <script src="../static/js/employee_profile.js"></script>
-</body>
+    <!-- Monthly Payslip / Payroll History List -->
+    <div style="margin-top: 40px; background: var(--white); border-radius: 20px; padding: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;">Payslip & Payroll History</h3>
+        <div class="table-container">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-muted);">
+                        <th style="padding: 12px;">Month</th>
+                        <th style="padding: 12px;">Amount Disbursed</th>
+                        <th style="padding: 12px;">Disbursement Date</th>
+                        <th style="padding: 12px;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if payroll_records %}
+                        {% for record in payroll_records %}
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 16px; font-weight: 600;">{{ record.pay_month }}</td>
+                            <td style="padding: 16px; font-weight: 600; color: var(--primary);">₹{{ "{:,.2f}".format(record.total_salary) }}</td>
+                            <td style="padding: 16px;">{{ record.created_at.strftime('%Y-%m-%d') if hasattr(record.created_at, 'strftime') else record.created_at }}</td>
+                            <td style="padding: 16px;">
+                                {% if record.payment_status == 'Paid' %}
+                                    <span style="background: #e8f4ec; color: #1c5a3c; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">PAID</span>
+                                {% else %}
+                                    <span style="background: #ffd9a6; color: #b25e00; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">PENDING</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px 0;">No disbursement history found.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-</html>
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/employee_profile.js') }}"></script>
+{% endblock %}

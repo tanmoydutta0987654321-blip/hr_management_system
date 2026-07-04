@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+
+{% block title %}Payroll Management - HRMS Serene{% endblock %}
+
+{% block nav_payroll %}{% if not is_hr or view == 'payroll' %}active{% endif %}{% endblock %}
+{% block nav_salary %}{% if is_hr and view == 'salary' %}active{% endif %}{% endblock %}
+
+{% block page_title %}{{ 'Salary Management' if (is_hr and view == 'salary') else 'Payroll Portal' }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .payroll-tab-container {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 24px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+        margin-top: 24px;
+    }
+    .payroll-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.88rem;
+    }
+    .payroll-table th, .payroll-table td {
+        padding: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .payroll-table th {
+        font-family: var(--font-heading);
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+    }
+    .badge-paid {
+        background: #e8f4ec;
+        color: #1c5a3c;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    .badge-pending {
+        background: #ffd9a6;
+        color: #b25e00;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    .btn-pay {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    .btn-pay:hover {
+        background: var(--primary-hover);
+    }
+    .salary-form-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 24px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 32px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    {% if is_hr %}
+        {% if view == 'salary' %}
+            <!-- HR Salary Management Panel -->
+            <div class="salary-form-card" id="salaryFormSection" style="display: none;">
+                <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;" id="formTitle">Update Employee Salary</h3>
+                <form id="salarySetForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; align-items: flex-end;">
+                    <input type="hidden" id="salaryEmpId" name="employee_id">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Employee Name</label>
+                        <input type="text" id="salaryEmpName" class="input-field" readonly style="background-color: rgba(0,0,0,0.02); cursor: not-allowed; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Basic Salary (Monthly)</label>
+                        <input type="number" id="basicSalary" name="basic_salary" class="input-field" required style="padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Bonus / Allowances</label>
+                        <input type="number" id="bonus" name="bonus" class="input-field" value="0" required style="padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Deductions (Monthly)</label>
+                        <input type="number" id="deduction" name="deduction" class="input-field" value="0" required style="padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit;">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn-pay" style="padding: 12px 20px; border-radius: 8px;">Save Salary</button>
+                        <button type="button" class="btn-pay" style="background-color: #fee2e2; color: #ef4444; padding: 12px 20px; border-radius: 8px;" onclick="hideSalaryForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="payroll-tab-container">
+                <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;">Wages & Pay Grades Directory</h3>
+                <div class="table-container">
+                    <table class="payroll-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Employee</th>
+                                <th>Basic Salary</th>
+                                <th>Bonus</th>
+                                <th>Deductions</th>
+                                <th>Net In-Hand</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if employees %}
+                                {% for emp in employees %}
+                                <tr>
+                                    <td style="font-weight: 600; color: var(--primary);">{{ emp.emp_code }}</td>
+                                    <td style="font-weight: 600;">{{ emp.first_name }} {{ emp.last_name }}</td>
+                                    <td>₹{{ "{:,.2f}".format(emp.basic_salary) }}</td>
+                                    <td>₹{{ "{:,.2f}".format(emp.bonus) }}</td>
+                                    <td style="color: #ef4444;">-₹{{ "{:,.2f}".format(emp.deduction) }}</td>
+                                    <td style="font-weight: 700; color: var(--primary);">₹{{ "{:,.2f}".format(emp.net_salary) }}</td>
+                                    <td>
+                                        <button class="btn-pay" onclick="showSalaryForm('{{ emp.id }}', '{{ emp.first_name }} {{ emp.last_name }}', '{{ emp.basic_salary }}', '{{ emp.bonus }}', '{{ emp.deduction }}')">Set Salary</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 40px 0;">No employees available.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% elif view == 'payroll' %}
+            <!-- HR Payroll Processing & Payment Panel -->
+            <div class="salary-form-card">
+                <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;">Process Monthly Payroll</h3>
+                <form id="payrollProcessForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; align-items: flex-end;">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Select Employee</label>
+                        <select id="processEmpId" name="employee_id" class="input-field" required style="padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit; background-color: white;">
+                            {% for emp in employees %}
+                                <option value="{{ emp.id }}">{{ emp.first_name }} {{ emp.last_name }} (CTC: ₹{{ "{:,.2f}".format(emp.net_salary) }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Pay Month</label>
+                        <input type="month" id="processPayMonth" name="pay_month" class="input-field" required style="padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: inherit;">
+                    </div>
+                    <button type="submit" class="btn-pay" style="padding: 12px 20px; border-radius: 8px;">Run Payroll</button>
+                </form>
+            </div>
+
+            <div class="payroll-tab-container">
+                <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;">Disbursements Ledger</h3>
+                <div class="table-container">
+                    <table class="payroll-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Code</th>
+                                <th>Employee</th>
+                                <th>Amount</th>
+                                <th>Processed Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if payroll_records %}
+                                {% for pr in payroll_records %}
+                                <tr id="row-{{ pr.id }}">
+                                    <td style="font-weight: 600;">{{ pr.pay_month }}</td>
+                                    <td style="font-weight: 600; color: var(--primary);">{{ pr.emp_code }}</td>
+                                    <td>{{ pr.first_name }} {{ pr.last_name }}</td>
+                                    <td style="font-weight: 700; color: var(--primary);">₹{{ "{:,.2f}".format(pr.total_salary) }}</td>
+                                    <td>{{ pr.created_at.strftime('%Y-%m-%d') if hasattr(pr.created_at, 'strftime') else pr.created_at }}</td>
+                                    <td>
+                                        <span class="badge-{% if pr.payment_status == 'Paid' %}paid{% else %}pending{% endif %}" id="badge-{{ pr.id }}">{{ pr.payment_status }}</span>
+                                    </td>
+                                    <td>
+                                        <div id="action-{{ pr.id }}">
+                                            {% if pr.payment_status == 'Pending' %}
+                                                <button class="btn-pay" onclick="paySalary('{{ pr.id }}')">Release Funds</button>
+                                            {% else %}
+                                                <span style="font-size: 0.8rem; color: var(--text-muted);">Completed</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 40px 0;">No payroll history exists.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <!-- Employee view (Salary summary or Payslip ledger) -->
+        <div class="payroll-tab-container">
+            <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;">Payslip History</h3>
+            <div class="table-container">
+                <table class="payroll-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Net disbursed</th>
+                            <th>Disbursement Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if payroll_records %}
+                            {% for pr in payroll_records %}
+                            <tr>
+                                <td style="font-weight: 600;">{{ pr.pay_month }}</td>
+                                <td style="font-weight: 700; color: var(--primary);">₹{{ "{:,.2f}".format(pr.total_salary) }}</td>
+                                <td>{{ pr.created_at.strftime('%Y-%m-%d') if hasattr(pr.created_at, 'strftime') else pr.created_at }}</td>
+                                <td>
+                                    <span class="badge-{% if pr.payment_status == 'Paid' %}paid{% else %}pending{% endif %}">{{ pr.payment_status }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px 0;">No payroll slips generated yet.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/payroll.js') }}"></script>
+{% endblock %}
