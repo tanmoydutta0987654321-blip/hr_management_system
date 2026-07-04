@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO INCREMENT PRIMARY KEY 
+    id INT AUTO_INCREMENT PRIMARY KEY ,
     employee_id VARCHAR(30) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     role ENUM('employee','hr_manager') NOT NULL,
