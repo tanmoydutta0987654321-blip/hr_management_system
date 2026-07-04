@@ -1,4 +1,4 @@
-// HRMS Serene - Sign Up Interactivity
+// HRMS Serene - Sign Up Interactivity & Form Validation
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Role Toggle Switcher
@@ -7,9 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const formSubtitle = document.getElementById('formSubtitle');
     const idInputLabel = document.getElementById('idInputLabel');
     const employeeIdInput = document.getElementById('employeeId');
+    const roleValueInput = document.getElementById('roleValue');
 
-    if (roleEmployee && roleManager && formSubtitle && idInputLabel && employeeIdInput) {
+    if (roleEmployee && roleManager && formSubtitle && idInputLabel && employeeIdInput && roleValueInput) {
         const setRole = (role) => {
+            roleValueInput.value = role;
             if (role === 'employee') {
                 roleEmployee.classList.add('active');
                 roleManager.classList.remove('active');
@@ -26,17 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         roleEmployee.addEventListener('click', () => setRole('employee'));
-        roleManager.addEventListener('click', () => setRole('manager'));
+        roleManager.addEventListener('click', () => setRole('hr_manager'));
     }
 
     // 2. Password Visibility Toggle
     const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
     const passwordToggle = document.getElementById('passwordToggle');
 
-    if (passwordInput && passwordToggle) {
+    if (passwordInput && confirmPasswordInput && passwordToggle) {
         passwordToggle.addEventListener('click', () => {
             const isPassword = passwordInput.type === 'password';
             passwordInput.type = isPassword ? 'text' : 'password';
+            confirmPasswordInput.type = isPassword ? 'text' : 'password';
             
             const eyeIcon = passwordToggle.querySelector('.eye-icon');
             if (eyeIcon) {
@@ -60,9 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const critLength = document.getElementById('critLength');
         const critMix = document.getElementById('critMix');
         const critSpecial = document.getElementById('critSpecial');
+        const critMatch = document.getElementById('critMatch');
 
-        passwordInput.addEventListener('input', () => {
+        const validatePasswords = () => {
             const val = passwordInput.value;
+            const confirmVal = confirmPasswordInput.value;
 
             // Rule 1: Min. 8 characters
             if (val.length >= 8) {
@@ -87,6 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 critSpecial.classList.remove('valid');
             }
-        });
+
+            // Rule 4: Passwords match
+            if (val && val === confirmVal) {
+                critMatch.classList.add('valid');
+            } else {
+                critMatch.classList.remove('valid');
+            }
+        };
+
+        passwordInput.addEventListener('input', validatePasswords);
+        confirmPasswordInput.addEventListener('input', validatePasswords);
     }
 });

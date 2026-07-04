@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+
+{% block title %}Leave Management - HRMS Serene{% endblock %}
+
+{% block nav_leave %}active{% endblock %}
+
+{% block page_title %}Leave Management{% endblock %}
+
+{% block extra_css %}
+<style>
+    .leave-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    @media (min-width: 992px) {
+        .leave-grid.employee-layout {
+            grid-template-columns: 1fr 1.5fr;
+        }
+    }
+    .form-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 24px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+    }
+    .leave-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .input-field {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        font-family: inherit;
+        font-size: 0.9rem;
+        width: 100%;
+        background-color: var(--white);
+    }
+    .input-field:focus {
+        border-color: var(--primary);
+        outline: none;
+    }
+    .btn-submit {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 10px;
+    }
+    .btn-submit:hover {
+        background: var(--primary-hover);
+    }
+    .history-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 24px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
+    }
+    .leave-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.88rem;
+    }
+    .leave-table th, .leave-table td {
+        padding: 14px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .leave-table th {
+        font-family: var(--font-heading);
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+    }
+    .badge-status {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .badge-status.pending {
+        background: #ffd9a6;
+        color: #b25e00;
+    }
+    .badge-status.approved {
+        background: #e8f4ec;
+        color: #1c5a3c;
+    }
+    .badge-status.rejected {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+    .btn-action {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: var(--transition);
+    }
+    .btn-approve {
+        background: #e8f4ec;
+        color: #1c5a3c;
+    }
+    .btn-approve:hover {
+        background: var(--primary);
+        color: white;
+    }
+    .btn-reject {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+    .btn-reject:hover {
+        background: #ef4444;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <div class="leave-grid {% if not is_hr %}employee-layout{% endif %}">
+        {% if not is_hr %}
+        <!-- Left: Submit Leave Request -->
+        <div class="form-card">
+            <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;">Request Time Off</h3>
+            <form class="leave-form" id="leaveForm">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Leave Type</label>
+                    <select class="input-field" name="leave_type_id" id="leaveType" required>
+                        {% for lt in leave_types %}
+                            <option value="{{ lt.id }}">{{ lt.name }} (Max: {{ lt.max_days }} days)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Start Date</label>
+                    <input type="date" class="input-field" name="start_date" id="startDate" required>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">End Date</label>
+                    <input type="date" class="input-field" name="end_date" id="endDate" required>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted);">Reason</label>
+                    <textarea class="input-field" name="reason" id="reason" rows="3" placeholder="Brief reason for your leave request..." style="resize: none;"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Submit Request</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <!-- Right: Leave History List / Approvals List -->
+        <div class="history-card">
+            <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 20px;">
+                {% if is_hr %}Pending Leave Requests{% else %}My Leave Requests{% endif %}
+            </h3>
+            <div class="table-container">
+                <table class="leave-table">
+                    <thead>
+                        <tr>
+                            {% if is_hr %}
+                                <th>Employee</th>
+                            {% endif %}
+                            <th>Type</th>
+                            <th>Duration</th>
+                            <th>Days</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            {% if is_hr %}
+                                <th>Actions</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody id="leaveHistoryBody">
+                        {% if requests %}
+                            {% for r in requests %}
+                            <tr id="row-{{ r.id }}">
+                                {% if is_hr %}
+                                    <td style="font-weight: 600;">{{ r.first_name }} {{ r.last_name }}</td>
+                                {% endif %}
+                                <td style="font-weight: 600; color: var(--primary);">{{ r.leave_type }}</td>
+                                <td>{{ r.start_date }} to {{ r.end_date }}</td>
+                                <td>{{ r.days }}</td>
+                                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ r.reason or '' }}">{{ r.reason or '—' }}</td>
+                                <td>
+                                    <span class="badge-status {{ r.status | lower }}" id="badge-{{ r.id }}">{{ r.status }}</span>
+                                </td>
+                                {% if is_hr %}
+                                    <td>
+                                        <div style="display: flex; gap: 8px;" id="actions-{{ r.id }}">
+                                            {% if r.status == 'Pending' %}
+                                                <button class="btn-action btn-approve" onclick="resolveLeave('{{ r.id }}', 'approve')">Approve</button>
+                                                <button class="btn-action btn-reject" onclick="resolveLeave('{{ r.id }}', 'reject')">Reject</button>
+                                            {% else %}
+                                                <span style="font-size: 0.8rem; color: var(--text-muted);">Resolved</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="{% if is_hr %}7{% else %}5{% endif %}" style="text-align: center; color: var(--text-muted); padding: 40px 0;">No leave requests found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/leave.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,316 @@
+/* HRMS Serene - Profile View Stylesheet */
+
+/* Profile Cover Banner */
+.profile-cover-card {
+    background-color: var(--white);
+    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.profile-cover-banner {
+    height: 180px;
+    background: linear-gradient(rgba(45, 90, 76, 0.1), rgba(45, 90, 76, 0.2)),
+                url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.profile-cover-content-row {
+    padding: 0 32px 32px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: -50px;
+    position: relative;
+    z-index: 10;
+}
+
+.profile-avatar-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 24px;
+    border: 6px solid var(--white);
+    box-shadow: var(--shadow-md);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--white);
+}
+
+.avatar-camera-btn {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(28, 43, 36, 0.7);
+    border: none;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.avatar-camera-btn:hover {
+    background-color: var(--primary);
+}
+
+.profile-meta-info {
+    flex: 1;
+    margin-left: 24px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.profile-meta-name {
+    font-family: var(--font-heading);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.profile-meta-title {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.profile-meta-badges-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.badge-green-filled {
+    background-color: #d1fae5;
+    color: #10b981;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.badge-grey-filled {
+    background-color: #e2ede6;
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+/* Edit profile button */
+.btn-edit-profile-custom {
+    background-color: var(--white);
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    margin-bottom: 8px;
+}
+
+.btn-edit-profile-custom:hover {
+    background-color: var(--primary-light);
+}
+
+.btn-edit-profile-custom.editing-active {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/* Two Column Layout */
+.profile-view-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* Left Column Info field styling */
+.field-input-style-disabled {
+    background-color: #f7fbf8 !important;
+    border-color: transparent !important;
+    font-weight: 500;
+    cursor: default;
+}
+
+/* Save changes button custom right align */
+.form-actions-save-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+/* Green Compensation Card */
+.compensation-summary-card-green {
+    background-color: #537568; /* Light forest green */
+    color: var(--white);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.compensation-summary-card-green::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 120px;
+    height: 120px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.compensation-green-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 12px;
+}
+
+.compensation-green-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.compensation-green-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.compensation-green-val {
+    font-weight: 600;
+}
+
+.compensation-green-net-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.compensation-green-net-val {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* Employment Info details right align */
+.employment-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.employment-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f7f3;
+    padding-bottom: 12px;
+}
+
+.employment-detail-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.employment-detail-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.employment-detail-val {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+/* Key Documents layout */
+.documents-custom-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.doc-item-view {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f7fbf8;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: var(--transition);
+}
+
+.doc-item-view:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.doc-item-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: #e2ede6;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doc-item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.doc-item-action-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    transition: var(--transition);
+}
+
+.doc-item-action-btn:hover {
+    color: var(--primary);
+}
+
+/* Responsive columns */
+@media (max-width: 1024px) {
+    .profile-view-grid {
+        grid-template-columns: 1fr;
+    }
+}

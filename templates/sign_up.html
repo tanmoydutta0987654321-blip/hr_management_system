@@ -1,150 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - HRMS Serene</title>
+    <title>Create Account - HRMS Serene</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/signup.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+    <style>
+        .flash-messages { position: fixed; top: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; }
+        .flash-msg { padding: 14px 24px; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.12); animation: flashIn 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; gap: 10px; max-width: 420px; }
+        .flash-msg.success { background: linear-gradient(135deg, #e8f4ec, #d5ebdc); color: #1c5a3c; border: 1px solid #a3d9c9; }
+        .flash-msg.error { background: linear-gradient(135deg, #fde8e8, #fcd5d5); color: #8b1a1a; border: 1px solid #f5a3a3; }
+        .flash-msg .close-flash { cursor: pointer; margin-left: auto; opacity: 0.6; font-size: 1.2rem; background: none; border: none; color: inherit; }
+        @keyframes flashIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
 </head>
+
 <body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages" id="flashMessages">
+        {% for category, message in messages %}
+        <div class="flash-msg {{ category }}">
+            <span>{{ message }}</span>
+            <button class="close-flash" onclick="this.parentElement.remove()">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
     <div class="signup-wrapper">
-        <!-- Left Visual Panel -->
-        <div class="visual-panel">
+        <!-- Left Side Image Panel -->
+        <section class="visual-panel">
             <div class="glass-card">
-                <div class="brand">
-                    <svg class="brand-logo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                <a href="{{ url_for('home') }}" class="brand" style="text-decoration: none; color: inherit;">
+                    <svg class="brand-logo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2d5a4c"
+                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2A9 9 0 0 0 3 11c0 5 9 11 9 11s9-6 9-11A9 9 0 0 0 12 2z" />
+                        <path d="M12 22V11" />
+                        <path d="M12 11c-2-2.5-4-2-4-2s.5 2 2.5 3" />
+                        <path d="M12 11c2-2.5 4-2 4-2s-.5 2-2.5 3" />
                     </svg>
                     <span class="brand-name">HRMS Serene</span>
-                </div>
-                <h2 class="glass-title">Nurture your team with tranquility.</h2>
-                <p class="glass-desc">Join our modern HR space built for visual excellence, organic workflows, and seamless employee experiences.</p>
+                </a>
+
+                <h2 class="glass-title">Welcome to your <br>new workspace.</h2>
+                <p class="glass-desc">
+                    Experience a more mindful approach to human resources. Professional, organic, and designed for
+                    clarity.
+                </p>
+
                 <ul class="glass-benefits">
                     <li>
                         <span class="bullet-check">✓</span>
-                        <span>Visual Analytics & Insights</span>
+                        <span>Verified Professional Network</span>
                     </li>
                     <li>
                         <span class="bullet-check">✓</span>
-                        <span>Streamlined Attendance & Time-off</span>
-                    </li>
-                    <li>
-                        <span class="bullet-check">✓</span>
-                        <span>Complete Compensation Tracking</span>
+                        <span>Secure Employee Records</span>
                     </li>
                 </ul>
             </div>
             <div class="visual-footer">
-                <span>HRMS SERENE PLATFORM v1.4</span>
+                <span>ECO-FRIENDLY HR INFRASTRUCTURE © 2024</span>
             </div>
-        </div>
+        </section>
 
-        <!-- Right Form Panel -->
-        <div class="form-panel">
+        <!-- Right Side Form Panel -->
+        <section class="form-panel">
             <div class="form-container">
                 <h1 class="form-title">Create Account</h1>
-                <p class="form-subtitle" id="formSubtitle">Join the serenity. Get started with your employee profile.</p>
+                <p class="form-subtitle" id="formSubtitle">Join the serenity. Get started with your employee profile.
+                </p>
 
-                <form class="signup-form" action="/signin" method="GET">
-                    <!-- Role Switcher -->
+                <form class="signup-form" id="signupForm" action="{{ url_for('auth.signup_post') }}" method="POST">
+                    <!-- Hidden role field -->
+                    <input type="hidden" name="role" id="roleValue" value="employee">
+
+                    <!-- Toggle Role Switcher -->
                     <div class="toggle-group">
-                        <label>Register As</label>
+                        <label>Register as</label>
                         <div class="role-switcher-pill">
-                            <button type="button" class="role-btn active" id="roleEmployee">Employee</button>
-                            <button type="button" class="role-btn" id="roleManager">HR / Manager</button>
+                            <button type="button" class="role-btn active" id="roleEmployee"
+                                data-role="employee">Employee</button>
+                            <button type="button" class="role-btn" id="roleManager" data-role="hr_manager">HR
+                                Manager</button>
                         </div>
                     </div>
 
-                    <!-- Email Input -->
-                    <div class="input-group">
-                        <label for="email">Corporate Email</label>
-                        <div class="input-wrapper">
-                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
-                            </svg>
-                            <input type="email" id="email" name="email" placeholder="e.g. employee@serene.com" required>
-                        </div>
-                    </div>
-
-                    <!-- Employee ID Input -->
+                    <!-- Employee/Manager ID input -->
                     <div class="input-group">
                         <label for="employeeId" id="idInputLabel">Employee ID</label>
                         <div class="input-wrapper">
-                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="16" rx="2" ry="2" />
+                                <line x1="7" y1="8" x2="17" y2="8" />
+                                <line x1="7" y1="12" x2="17" y2="12" />
+                                <line x1="7" y1="16" x2="13" y2="16" />
                             </svg>
-                            <input type="text" id="employeeId" name="employeeId" placeholder="e.g. SRN-2024-001" required>
-                        </div>
-                        <div class="input-help">
-                            <svg class="help-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="12" y1="16" x2="12" y2="12"/>
-                                <line x1="12" y1="8" x2="12.01" y2="8"/>
-                            </svg>
-                            <span>Use standard format SRN-YYYY-XXX</span>
+                            <input type="text" id="employeeId" name="employee_id" placeholder="e.g. SRN-2024-001" required>
                         </div>
                     </div>
 
-                    <!-- Password Input -->
+                    <!-- Work Email input -->
                     <div class="input-group">
-                        <label for="password">Password</label>
+                        <label for="workEmail">Work Email</label>
                         <div class="input-wrapper">
-                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            <input type="email" id="workEmail" name="email" placeholder="name@company.com" required>
+                        </div>
+                        <div class="input-help">
+                            <svg class="help-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                            </svg>
+                            <span>Email verification is required for access.</span>
+                        </div>
+                    </div>
+
+                    <!-- Personal Details -->
+                    <div class="input-group">
+                        <label for="firstname">First Name</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="firstname" name="first_name" placeholder="First Name" required>
+                        </div>
+                        <label for="lastname">Last Name</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="lastname" name="last_name" placeholder="Last Name" required>
+                        </div>
+                        <label for="gender">Gender</label>
+                        <div class="input-wrapper">
+                            <select id="gender" name="gender" style="width: 100%; padding: 12px 16px; border: none; outline: none; font-family: inherit; font-size: 0.9rem; background: transparent; color: var(--text-main, #1c2b24);">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <label for="phone">Phone No.</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                            </svg>
+                            <input type="text" id="phone" name="phone" placeholder="9865412345" required>
+                        </div>
+                        <label for="address">Address</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="address" name="address" placeholder="123 Main St">
+                        </div>
+                    </div>
+
+                    <!-- Create Password input -->
+                    <div class="input-group">
+                        <label for="password">Create Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                             </svg>
                             <input type="password" id="password" name="password" placeholder="••••••••" required>
-                            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle Password Visibility">
-                                <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
+                        </div>
+
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="confirmPassword" name="confirm_password" placeholder="••••••••" required>
+                            <button type="button" class="password-toggle" id="passwordToggle"
+                                aria-label="Toggle Password Visibility">
+                                <svg class="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="#6e8277" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
                                 </svg>
                             </button>
                         </div>
 
-                        <!-- Real-time Password Criteria Check -->
+                        <!-- Password Validation Check List -->
                         <div class="password-criteria">
                             <div class="criteria-item" id="critLength">
                                 <span class="criteria-dot">•</span>
-                                <span>Min. 8 characters</span>
+                                <span class="criteria-text">Min. 8 characters</span>
                             </div>
                             <div class="criteria-item" id="critMix">
                                 <span class="criteria-dot">•</span>
-                                <span>Letters & numbers</span>
+                                <span class="criteria-text">Mix letters/numbers</span>
                             </div>
                             <div class="criteria-item" id="critSpecial">
                                 <span class="criteria-dot">•</span>
-                                <span>1 special symbol</span>
+                                <span class="criteria-text">1 special character</span>
+                            </div>
+                            <div class="criteria-item" id="critMatch">
+                                <span class="criteria-dot">•</span>
+                                <span class="criteria-text">Passwords match</span>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-signup-submit">
-                        <span>Create Account</span>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-signup-submit" id="btnSignup">
+                        <span>Sign Up</span>
                         <span class="arrow">➔</span>
                     </button>
                 </form>
 
+                <!-- Link to sign in -->
                 <div class="signin-prompt">
                     <span>Already have an account?</span>
-                    <a href="/signin" class="signin-link">Sign In</a>
+                    <a href="{{ url_for('auth.signin') }}" class="signin-link">Sign In</a>
                 </div>
 
-                <div class="form-footer">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Help Guidelines</a>
-                </div>
+                <!-- Footer info links -->
+                <footer class="form-footer">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#help">Help Center</a>
+                </footer>
             </div>
-        </div>
+        </section>
     </div>
 
-    <script src="../static/js/signup.js"></script>
+    <script src="{{ url_for('static', filename='js/signup.js') }}"></script>
+    <script>
+        const fm = document.getElementById('flashMessages');
+        if (fm) { setTimeout(() => { fm.style.transition = 'opacity 0.5s'; fm.style.opacity = '0'; setTimeout(() => fm.remove(), 500); }, 4000); }
+    </script>
 </body>
+
 </html>
