@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - HRMS Serene</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/signup.css">
+</head>
+<body>
+    <div class="signup-wrapper">
+        <!-- Left Visual Panel -->
+        <div class="visual-panel">
+            <div class="glass-card">
+                <div class="brand">
+                    <svg class="brand-logo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <span class="brand-name">HRMS Serene</span>
+                </div>
+                <h2 class="glass-title">Nurture your team with tranquility.</h2>
+                <p class="glass-desc">Join our modern HR space built for visual excellence, organic workflows, and seamless employee experiences.</p>
+                <ul class="glass-benefits">
+                    <li>
+                        <span class="bullet-check">✓</span>
+                        <span>Visual Analytics & Insights</span>
+                    </li>
+                    <li>
+                        <span class="bullet-check">✓</span>
+                        <span>Streamlined Attendance & Time-off</span>
+                    </li>
+                    <li>
+                        <span class="bullet-check">✓</span>
+                        <span>Complete Compensation Tracking</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="visual-footer">
+                <span>HRMS SERENE PLATFORM v1.4</span>
+            </div>
+        </div>
+
+        <!-- Right Form Panel -->
+        <div class="form-panel">
+            <div class="form-container">
+                <h1 class="form-title">Create Account</h1>
+                <p class="form-subtitle" id="formSubtitle">Join the serenity. Get started with your employee profile.</p>
+
+                <form class="signup-form" action="/signin" method="GET">
+                    <!-- Role Switcher -->
+                    <div class="toggle-group">
+                        <label>Register As</label>
+                        <div class="role-switcher-pill">
+                            <button type="button" class="role-btn active" id="roleEmployee">Employee</button>
+                            <button type="button" class="role-btn" id="roleManager">HR / Manager</button>
+                        </div>
+                    </div>
+
+                    <!-- Email Input -->
+                    <div class="input-group">
+                        <label for="email">Corporate Email</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <input type="email" id="email" name="email" placeholder="e.g. employee@serene.com" required>
+                        </div>
+                    </div>
+
+                    <!-- Employee ID Input -->
+                    <div class="input-group">
+                        <label for="employeeId" id="idInputLabel">Employee ID</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <input type="text" id="employeeId" name="employeeId" placeholder="e.g. SRN-2024-001" required>
+                        </div>
+                        <div class="input-help">
+                            <svg class="help-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="16" x2="12" y2="12"/>
+                                <line x1="12" y1="8" x2="12.01" y2="8"/>
+                            </svg>
+                            <span>Use standard format SRN-YYYY-XXX</span>
+                        </div>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required>
+                            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle Password Visibility">
+                                <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Real-time Password Criteria Check -->
+                        <div class="password-criteria">
+                            <div class="criteria-item" id="critLength">
+                                <span class="criteria-dot">•</span>
+                                <span>Min. 8 characters</span>
+                            </div>
+                            <div class="criteria-item" id="critMix">
+                                <span class="criteria-dot">•</span>
+                                <span>Letters & numbers</span>
+                            </div>
+                            <div class="criteria-item" id="critSpecial">
+                                <span class="criteria-dot">•</span>
+                                <span>1 special symbol</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-signup-submit">
+                        <span>Create Account</span>
+                        <span class="arrow">➔</span>
+                    </button>
+                </form>
+
+                <div class="signin-prompt">
+                    <span>Already have an account?</span>
+                    <a href="/signin" class="signin-link">Sign In</a>
+                </div>
+
+                <div class="form-footer">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Help Guidelines</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/signup.js"></script>
+</body>
+</html>

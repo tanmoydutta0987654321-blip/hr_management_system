@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Profile Management - HRMS Serene</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/admindashboard.css">
+    <link rel="stylesheet" href="../static/css/profile_management.css">
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation (Management Suite Style) -->
+        <aside class="sidebar" style="background-color: var(--bg-sidebar);">
+            <div class="sidebar-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <h2 class="sidebar-title">HRMS Serene</h2>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Management Suite</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/admin_dashboard" class="nav-item">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="9" />
+                        <rect x="14" y="3" width="7" height="5" />
+                        <rect x="14" y="12" width="7" height="9" />
+                        <rect x="3" y="16" width="7" height="5" />
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/profile_management" class="nav-item active">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    <span>Employees</span>
+                </a>
+                <a href="/daily_attendance" class="nav-item">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span>Attendance</span>
+                </a>
+                <a href="/my_attendance" class="nav-item">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    <span>Time Off</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-sidebar-add-entry" id="btnSidebarAddEntry">
+                    <span style="font-size: 1.1rem; line-height: 1;">+</span>
+                    <span>Add Entry</span>
+                </button>
+                <div class="footer-links">
+                    <a href="/signin" class="footer-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-nav">
+                <div class="brand">
+                    <span class="brand-name">Employee Profile Management</span>
+                </div>
+                <div class="nav-right">
+                    <button class="nav-btn-icon" aria-label="Notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                    </button>
+                    <button class="nav-btn-icon" aria-label="Settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </button>
+                    <!-- Admin user info -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-left: 12px;">
+                        <div style="text-align: right; display: flex; flex-direction: column;">
+                            <span style="font-size: 0.8rem; font-weight: 600;">Admin User</span>
+                            <span style="font-size: 0.65rem; color: var(--text-muted);">System Administrator</span>
+                        </div>
+                        <div class="user-profile-avatar" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=80&q=80')"></div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Container -->
+            <div class="content-container">
+                <!-- Eleanor Thorne Profile Header Card -->
+                <section class="profile-header-card">
+                    <div class="profile-card-left">
+                        <div class="profile-card-avatar" style="background-image: url('https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80')"></div>
+                        <div class="profile-card-info">
+                            <div class="profile-info-name-row">
+                                <span class="profile-info-name">Eleanor Thorne</span>
+                                <span class="badge-status-active">Active</span>
+                            </div>
+                            <span class="profile-info-role">Senior Product Designer • Engineering Dept</span>
+                            <span class="profile-info-id">ID: EMP-2024-8842</span>
+                        </div>
+                    </div>
+                    <div class="profile-card-actions">
+                        <button class="btn-discard-custom" id="btnDiscard">Discard</button>
+                        <button class="btn-update-profile" id="btnUpdateProfile">Update Profile</button>
+                    </div>
+                </section>
+
+                <form id="profileForm">
+                    <div class="profile-form-grid">
+                        <!-- Left Column (Personal Details & Salary) -->
+                        <div class="profile-form-column">
+                            <!-- Personal Details Form Card -->
+                            <div class="form-card">
+                                <div class="form-card-header">
+                                    <div class="form-card-title-row">
+                                        <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                            <circle cx="12" cy="7" r="4" />
+                                        </svg>
+                                        <h3 class="form-card-title">Personal Details</h3>
+                                    </div>
+                                    <span class="form-card-subtitle">Admin Edit Mode</span>
+                                </div>
+
+                                <div class="form-row-double">
+                                    <div class="form-field-group">
+                                        <label for="fullName">Full Legal Name</label>
+                                        <div class="form-input-wrapper">
+                                            <input type="text" id="fullName" name="fullName" value="Eleanor Thorne" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="dob">Date of Birth</label>
+                                        <div class="form-input-wrapper">
+                                            <input type="text" id="dob" name="dob" value="05/14/1992" required>
+                                            <svg class="form-input-icon-right" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                                <line x1="8" y1="2" x2="8" y2="6" />
+                                                <line x1="3" y1="10" x2="21" y2="10" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row-double">
+                                    <div class="form-field-group">
+                                        <label for="personalEmail">Personal Email</label>
+                                        <div class="form-input-wrapper">
+                                            <input type="email" id="personalEmail" name="personalEmail" value="eleanor.t@gmail.com" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="phoneNumber">Phone Number</label>
+                                        <div class="form-input-wrapper">
+                                            <input type="tel" id="phoneNumber" name="phoneNumber" value="+1 (555) 092-8831" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-field-group">
+                                    <label for="address">Residential Address</label>
+                                    <div class="form-input-wrapper">
+                                        <textarea id="address" name="address" required>428 Serenity Path, Willow Creek, California, 90210</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Salary Management Form Card -->
+                            <div class="form-card">
+                                <div class="form-card-header">
+                                    <div class="form-card-title-row">
+                                        <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+                                            <line x1="12" y1="18" x2="12" y2="18" />
+                                            <line x1="12" y1="6" x2="12" y2="12" />
+                                        </svg>
+                                        <h3 class="form-card-title">Salary Management</h3>
+                                    </div>
+                                    <span style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--primary);">Annual CTC <span style="font-size: 1.15rem;">$145,000.00</span></span>
+                                </div>
+
+                                <div class="form-row-double" style="margin-bottom: 24px;">
+                                    <div class="form-field-group">
+                                        <label for="basicSalary">Basic Salary</label>
+                                        <div class="form-input-wrapper">
+                                            <span style="position: absolute; left: 14px; font-weight: 500; color: var(--text-muted);">$</span>
+                                            <input type="number" id="basicSalary" name="basicSalary" value="72500" style="padding-left: 28px;" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-group">
+                                        <label for="hra">HRA</label>
+                                        <div class="form-input-wrapper">
+                                            <span style="position: absolute; left: 14px; font-weight: 500; color: var(--text-muted);">$</span>
+                                            <input type="number" id="hra" name="hra" value="29000" style="padding-left: 28px;" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row-double" style="align-items: center; margin-bottom: 0;">
+                                    <div class="form-field-group">
+                                        <label for="specialAllowance">Special Allowance</label>
+                                        <div class="form-input-wrapper">
+                                            <span style="position: absolute; left: 14px; font-weight: 500; color: var(--text-muted);">$</span>
+                                            <input type="number" id="specialAllowance" name="specialAllowance" value="43500" style="padding-left: 28px;" required>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+                                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); cursor: pointer; text-transform: uppercase;">
+                                            <input type="checkbox" id="taxExempt" name="taxExempt" checked style="width: 16px; height: 16px; accent-color: var(--primary);">
+                                            <span>Eligible for Tax Exemption</span>
+                                        </label>
+                                        <a href="/employee_profile" style="font-size: 0.8rem; font-weight: 600; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 4px;">
+                                            <span>View Pay Grade History</span>
+                                            <span>➔</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column (Job Details & Documents) -->
+                        <div class="profile-form-column">
+                            <!-- Job Details Card -->
+                            <div class="form-card">
+                                <div class="form-card-header">
+                                    <div class="form-card-title-row">
+                                        <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                        </svg>
+                                        <h3 class="form-card-title">Job Details</h3>
+                                    </div>
+                                </div>
+
+                                <div class="form-field-group" style="margin-bottom: 20px;">
+                                    <label for="department">Department</label>
+                                    <div class="form-input-wrapper">
+                                        <select id="department" name="department" required>
+                                            <option value="Design & Experience" selected>Design & Experience</option>
+                                            <option value="Engineering">Engineering</option>
+                                            <option value="Operations">Operations</option>
+                                            <option value="Human Resources">Human Resources</option>
+                                            <option value="Legal">Legal</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-field-group" style="margin-bottom: 20px;">
+                                    <label for="designation">Designation</label>
+                                    <div class="form-input-wrapper">
+                                        <input type="text" id="designation" name="designation" value="Senior Product Designer" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-field-group" style="margin-bottom: 20px;">
+                                    <label for="reportingManager">Reporting Manager</label>
+                                    <div class="form-input-wrapper">
+                                        <input type="text" id="reportingManager" name="reportingManager" value="Sarah Jenkins (Design Lead)" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-field-group" style="margin-bottom: 20px;">
+                                    <label for="employmentType">Employment Type</label>
+                                    <div class="form-input-wrapper">
+                                        <select id="employmentType" name="employmentType" required>
+                                            <option value="Full-Time Regular" selected>Full-Time Regular</option>
+                                            <option value="Full-Time Contractor">Full-Time Contractor</option>
+                                            <option value="Part-Time">Part-Time</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-field-group">
+                                    <label>Employment Status</label>
+                                    <input type="hidden" id="employmentStatusHidden" name="employmentStatus" value="active">
+                                    <div class="status-toggle-pill-row">
+                                        <button type="button" class="status-toggle-btn active" id="statusBtnActive">Active</button>
+                                        <button type="button" class="status-toggle-btn" id="statusBtnLeave">On Leave</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Documents Card -->
+                            <div class="form-card">
+                                <div class="form-card-header">
+                                    <div class="form-card-title-row">
+                                        <svg class="form-card-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                        </svg>
+                                        <h3 class="form-card-title">Documents</h3>
+                                    </div>
+                                    <button class="doc-download-btn" aria-label="Upload File" style="color: var(--primary);">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                            <polyline points="17 8 12 3 7 8" />
+                                            <line x1="12" y1="3" x2="12" y2="15" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="docs-list" id="docsList">
+                                    <!-- Doc 1 -->
+                                    <div class="doc-file-item">
+                                        <div class="doc-file-left">
+                                            <div class="doc-file-icon-box">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                                    <polyline points="14 2 14 8 20 8" />
+                                                </svg>
+                                            </div>
+                                            <div class="doc-file-meta">
+                                                <span class="doc-file-name">Employment_Contract.pdf</span>
+                                                <span class="doc-file-date">Uploaded: Jan 12, 2024</span>
+                                            </div>
+                                        </div>
+                                        <button class="doc-download-btn" aria-label="Download Document">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                <polyline points="7 10 12 15 17 10" />
+                                                <line x1="12" y1="15" x2="12" y2="3" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <!-- Doc 2 -->
+                                    <div class="doc-file-item">
+                                        <div class="doc-file-left">
+                                            <div class="doc-file-icon-box zip">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                                </svg>
+                                            </div>
+                                            <div class="doc-file-meta">
+                                                <span class="doc-file-name">KYC_Documents.zip</span>
+                                                <span class="doc-file-date">Uploaded: Jan 12, 2024</span>
+                                            </div>
+                                        </div>
+                                        <button class="doc-download-btn" aria-label="Download Document">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                <polyline points="7 10 12 15 17 10" />
+                                                <line x1="12" y1="15" x2="12" y2="3" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <!-- Doc 3 -->
+                                    <div class="doc-file-item">
+                                        <div class="doc-file-left">
+                                            <div class="doc-file-icon-box">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                                    <polyline points="14 2 14 8 20 8" />
+                                                </svg>
+                                            </div>
+                                            <div class="doc-file-meta">
+                                                <span class="doc-file-name">Degree_Certificates.pdf</span>
+                                                <span class="doc-file-date">Uploaded: Jan 12, 2024</span>
+                                            </div>
+                                        </div>
+                                        <button class="doc-download-btn" aria-label="Download Document">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                <polyline points="7 10 12 15 17 10" />
+                                                <line x1="12" y1="15" x2="12" y2="3" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button class="btn-add-doc-dotted" id="btnAddDoc">
+                                    <span style="font-size: 1.15rem; line-height: 1;">+</span>
+                                    <span>Add New Document</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <!-- Floating SUCCESS Toast -->
+        <div class="floating-toast-container" id="successToast">
+            <span class="toast-check-icon">✓</span>
+            <span>Profile updated successfully!</span>
+        </div>
+    </div>
+
+    <script src="../static/js/admindashboard.js"></script>
+    <script src="../static/js/profile_management.js"></script>
+</body>
+
+</html>

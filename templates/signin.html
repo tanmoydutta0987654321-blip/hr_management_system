@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - HRMS Serene</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/signin.css">
+</head>
+<body>
+    <div class="signin-wrapper">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="brand">
+                <svg class="brand-logo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <span class="brand-name">HRMS Serene</span>
+            </div>
+            <div class="header-links">
+                <a href="/">Home</a>
+                <span class="dot-separator">•</span>
+                <a href="https://github.com">Documentation</a>
+            </div>
+        </header>
+
+        <!-- Main Signin Container -->
+        <div class="signin-container">
+            <!-- Left Info Panel -->
+            <div class="info-panel">
+                <h1 class="info-title">Nurture your team <br><span class="highlight">with tranquility.</span></h1>
+                <p class="info-description">Enter your corporate credentials to access the Serene portal, where professional achievement meets organic workflow design.</p>
+                
+                <!-- Automated ID Logic Box -->
+                <div class="id-logic-box">
+                    <div class="id-logic-header">
+                        <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <span class="id-logic-title">Standard Employee Credentials</span>
+                    </div>
+                    <p class="id-logic-desc">For testing and demo purposes, use any placeholder email and password to log directly into the system, or click Sign In.</p>
+                    <div class="formula-pill">
+                        <code>Email: admin@serene.com / Password: AdminPass123!</code>
+                    </div>
+                    <div class="id-logic-footer">
+                        <svg class="clock-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>Demo mode is active. Click Sign In to access the admin dashboard.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Form Panel -->
+            <div class="form-panel">
+                <div class="login-card">
+                    <h2 class="card-title">Welcome back</h2>
+                    <p class="card-subtitle">Sign in to manage employees and track operations.</p>
+                    
+                    <form class="login-form" action="/admin_dashboard" method="GET">
+                        <div class="input-group">
+                            <label for="email">Corporate Email</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                                <input type="email" id="email" name="email" placeholder="e.g. admin@serene.com" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                                <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle Password Visibility">
+                                    <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6e8277" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-actions-row">
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="btn-signin-submit">
+                            <span>Sign In</span>
+                            <span class="arrow">➔</span>
+                        </button>
+                    </form>
+
+                    <div class="register-prompt">
+                        <span>New to HRMS Serene?</span>
+                        <a href="/signup" class="register-link">Create Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <footer class="bottom-footer">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Security Guidelines</a>
+            </div>
+            <p class="copyright">© 2026 HRMS Serene. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="../static/js/signin.js"></script>
+</body>
+</html>

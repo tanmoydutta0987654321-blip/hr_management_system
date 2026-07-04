@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Attendance - HRMS Serene</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/admindashboard.css">
+    <link rel="stylesheet" href="../static/css/daily_attendance.css">
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Attendance Tracker</h2>
+                <div class="status-indicator-row">
+                    <span class="status-dot status-out" id="statusDot"></span>
+                    <span class="status-text" id="statusText">Current Status: Out</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/daily_attendance" class="nav-item active">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span>Check In/Out</span>
+                </a>
+                <a href="/my_attendance" class="nav-item">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    <span>My Schedule</span>
+                </a>
+                <a href="/my_attendance" class="nav-item">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    <span>Leave Balance</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                    <span>Company Policy</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-checkin" id="btnCheckIn">Check In</button>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        <span>Help Center</span>
+                    </a>
+                    <a href="/signin" class="footer-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-nav">
+                <div class="brand">
+                    <span class="brand-name">HRMS Serene</span>
+                </div>
+                <div class="nav-tabs">
+                    <a href="/profile_management" class="tab-link">Employees</a>
+                    <a href="/daily_attendance" class="tab-link active">Attendance</a>
+                    <a href="/my_attendance" class="tab-link">Time Off</a>
+                </div>
+                <div class="nav-right">
+                    <div class="search-box">
+                        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <input type="text" placeholder="Search employees...">
+                    </div>
+                    <button class="nav-btn-icon" aria-label="Notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                    </button>
+                    <button class="nav-btn-icon" aria-label="Settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </button>
+                    <div class="user-profile-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80')"></div>
+                </div>
+            </header>
+
+            <!-- Daily Attendance Content Container -->
+            <div class="content-container">
+                <section class="greeting-section" style="margin-bottom: 24px;">
+                    <div class="greeting-left">
+                        <h1 class="greeting-title">Daily Attendance</h1>
+                        <p class="greeting-subtitle">Track your working hours and manage your daily check-ins.</p>
+                    </div>
+                </section>
+
+                <div class="attendance-grid">
+                    <!-- Left: Clock Card -->
+                    <div class="clock-card">
+                        <span class="clock-date" id="liveDate">JULY 3, 2026</span>
+                        <div class="clock-time" id="liveClock">23:49:43</div>
+                        <div class="checkin-status-badge" id="badgeStatus">
+                            <span class="status-badge-dot"></span>
+                            <span>Status: Not Checked In</span>
+                        </div>
+                        <div class="fingerprint-btn-container">
+                            <div class="fingerprint-btn-pulse"></div>
+                            <button class="fingerprint-btn" id="fingerprintBtn">
+                                <svg class="fingerprint-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a10 10 0 0 0-7.3 16.8" />
+                                    <path d="M12 2a10 10 0 0 1 9.8 8.2" />
+                                    <path d="M8.8 8.8a6 6 0 0 0-.8 3.2" />
+                                    <path d="M16 12a4 4 0 0 1-.8 2.4" />
+                                    <path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+                                    <path d="M12 6a8 8 0 0 0-4.8 14.4" />
+                                    <path d="M12 6a8 8 0 0 1 8 8" />
+                                    <path d="M14.5 17.5a6 6 0 0 1-5 2.5" />
+                                    <path d="M16 12v3a1 1 0 0 0 1 1 1 1 0 0 0 1-1v-3a6 6 0 0 0-12 0v2.5" />
+                                </svg>
+                                <span class="fingerprint-label">CHECK IN</span>
+                                <span class="fingerprint-sub">Tap to start shift</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Stats & Logs -->
+                    <div class="right-attendance-column">
+                        <div class="stats-cards-row">
+                            <div class="stat-mini-card">
+                                <div class="stat-card-header">
+                                    <span class="stat-card-label">Work Hours</span>
+                                    <div class="stat-card-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="stat-card-value" id="workHoursVal">00:00 <span style="font-size: 0.9rem; font-weight: 500; color: var(--text-muted);">hrs</span></span>
+                            </div>
+                            <div class="stat-mini-card">
+                                <div class="stat-card-header">
+                                    <span class="stat-card-label">Overtime</span>
+                                    <div class="stat-card-icon" style="background-color: #e0f2fe; color: #0284c7;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span class="stat-card-value" id="overtimeVal">00:00 <span style="font-size: 0.9rem; font-weight: 500; color: var(--text-muted);">hrs</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Today's Log -->
+                        <div class="log-trend-card">
+                            <h3 class="sidebar-title" style="font-size: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 8px;">Today's Log <span style="float: right; font-size: 0.75rem; background-color: var(--primary-light); color: var(--primary); padding: 2px 8px; border-radius: 10px;">2 Events</span></h3>
+                            <div class="log-item-row">
+                                <div class="log-dot active"></div>
+                                <div class="log-info">
+                                    <span class="log-title">Shift Scheduled</span>
+                                    <span class="log-sub">Standard morning shift</span>
+                                </div>
+                                <span class="log-time-val">09:00 AM</span>
+                            </div>
+                            <div class="log-item-row" style="padding-bottom: 0;">
+                                <div class="log-dot" id="awaitingLogIcon"></div>
+                                <div class="log-info">
+                                    <span class="log-title">Awaiting Check-In</span>
+                                    <span class="log-sub">Waiting for manual input...</span>
+                                </div>
+                                <span class="log-time-val" id="awaitingLogTime">--:--</span>
+                            </div>
+                        </div>
+
+                        <!-- Weekly Trend -->
+                        <div class="log-trend-card">
+                            <h3 class="sidebar-title" style="font-size: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 8px;">Weekly Trend</h3>
+                            <div class="weekly-trend-chart">
+                                <div class="trend-bar-column">
+                                    <div class="trend-bar-fill" style="height: 35%;"></div>
+                                    <span class="trend-bar-label">MON</span>
+                                </div>
+                                <div class="trend-bar-column">
+                                    <div class="trend-bar-fill" style="height: 70%;"></div>
+                                    <span class="trend-bar-label">TUE</span>
+                                </div>
+                                <div class="trend-bar-column">
+                                    <div class="trend-bar-fill" style="height: 60%;"></div>
+                                    <span class="trend-bar-label">WED</span>
+                                </div>
+                                <div class="trend-bar-column">
+                                    <div class="trend-bar-fill" style="height: 80%;"></div>
+                                    <span class="trend-bar-label">THU</span>
+                                </div>
+                                <div class="trend-bar-column">
+                                    <div class="trend-bar-fill" style="height: 65%;"></div>
+                                    <span class="trend-bar-label">FRI</span>
+                                </div>
+                                <div class="trend-bar-column">
+                                    <div class="trend-bar-fill" style="height: 5%;"></div>
+                                    <span class="trend-bar-label">SAT</span>
+                                </div>
+                                <div class="trend-bar-column">
+                                    <div class="trend-bar-fill" style="height: 0%;"></div>
+                                    <span class="trend-bar-label">SUN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Table -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h3 class="sidebar-title" style="font-size: 1.1rem;">Recent Activity</h3>
+                        <div class="month-picker-row">
+                            <button class="month-picker-btn" aria-label="Previous Month">◀</button>
+                            <span class="current-month-label">October 2025</span>
+                            <button class="month-picker-btn" aria-label="Next Month">▶</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="activity-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Work Hours</th>
+                                    <th>Extra Hours</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentActivityBody">
+                                <tr>
+                                    <td>21/10/2025</td>
+                                    <td>09:00</td>
+                                    <td>18:00</td>
+                                    <td class="text-green-bold">09:00</td>
+                                    <td>00:00</td>
+                                    <td><span class="badge-status badge-status-regular">REGULAR</span></td>
+                                </tr>
+                                <tr>
+                                    <td>20/10/2025</td>
+                                    <td>08:45</td>
+                                    <td>19:15</td>
+                                    <td class="text-green-bold">10:30</td>
+                                    <td class="text-green-bold">+01:30</td>
+                                    <td><span class="badge-status badge-status-overtime">OVERTIME</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../static/js/admindashboard.js"></script>
+    <script src="../static/js/daily_attendance.js"></script>
+</body>
+
+</html>
